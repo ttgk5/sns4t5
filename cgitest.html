@@ -12,11 +12,24 @@
 </head>
 
 <body>
-    
-    <h1><p class="text-center">SNS For T5</p></h1>
-    <h2><p class="text-center">instaglam</p></h2>
+    <div class="container">
 
-    <h3><p class="text-center">Twitter</p></h3>
+        <h1><p class="text-center">SNS For T5</p></h1>
 
+        <form action="/cgi/form_cgi.py" method="get">
+            <div class="mb-3">
+                <label for="UserName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="UserName" name="user_name" >
+            </div>
+
+            <div class="mb-3">
+                <label for="PostedContent" class="form-label">TWEEET</label>
+                <input type="text" class="form-control" id="PostedContent" name="posted_content">
+                <div id="textHelp" class="form-text">you can input 240 characters</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
