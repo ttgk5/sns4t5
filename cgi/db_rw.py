@@ -69,17 +69,36 @@ def writedb(postdata):
         writer = csv.writer(f)
         writer.writerow(postdata)
         f.close()
+
+#HTMLフォーマットで表現する
+def to_html_format(name, data):
+
+    buff_data = str(data.values)
+
+    print(buff_data)
+
+    for i in range(len(buff_data)):
+        time = data[i][0]
+        post = data[i][1]
+
+        print('<dl class="row">')
+
+        print('<dt class="col-sm-3">', name, "</dt>")
+        print('<dt class="col-sm-1">', time, "</dt>")
+        print('<dt class="col-sm-8">', post, "</dt>")
     
+    print("</dl>")
 
 
 # 投稿データを読み出す
-def readdb(db_name, UUID=None):
+def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ mode = 2 全部
 
     filename = "./db/" + db_name + ".csv"
 
     data = pd.read_csv(filename)
 
     if UUID == None:
+        #rdata = to_html_format(db_name, data)
         return data
     else:
         return data[data["UUID"] == UUID]
@@ -99,10 +118,11 @@ def main():
     writedb(["test2", "MOON IS BRIGHT"])
     writedb(tweet)
 
-    uuid = "a7aedd3b"
+    #uuid = "a7aedd3b"
 
-    post = readdb("test", uuid)
-    print(post["POST"].values)
+    post = readdb("test")
+    print(post, type(post))
+    #to_html_format("test", post)
 
 
 if __name__ == "__main__":
