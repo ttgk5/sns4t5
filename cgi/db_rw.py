@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import csv
 import datetime
 import pandas as pd
@@ -65,27 +67,28 @@ def writedb(postdata):
     else:
         return 0
    
-    with open(filename, 'a+', newline="") as f:
+    with open(filename, 'a+', newline="", encoding="Shift_JIS") as f:
         writer = csv.writer(f)
         writer.writerow(postdata)
         f.close()
 
 #HTMLフォーマットで表現する
-def to_html_format(name, data):
+def to_html_format(name, dfdata):
 
-    buff_data = str(data.values)
+    buff_data = dfdata.values.tolist()
 
-    print(buff_data)
+    #print(buff_data)
 
+    print('<dl class="row">')
     for i in range(len(buff_data)):
-        time = data[i][0]
-        post = data[i][1]
+        time = buff_data[i][1]
+        post = buff_data[i][2]
 
-        print('<dl class="row">')
+        
 
         print('<dt class="col-sm-3">', name, "</dt>")
-        print('<dt class="col-sm-1">', time, "</dt>")
-        print('<dt class="col-sm-8">', post, "</dt>")
+        print('<dd class="col-sm-1">', time, "</dd>")
+        print('<dd class="col-sm-8">', post, "</dd>")
     
     print("</dl>")
 
@@ -95,11 +98,11 @@ def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ 
 
     filename = "./db/" + db_name + ".csv"
 
-    data = pd.read_csv(filename)
+    data = pd.read_csv(filename, encoding="Shift_JIS")
 
     if UUID == None:
-        #rdata = to_html_format(db_name, data)
-        return data
+        rdata = to_html_format(db_name, data)
+        return rdata
     else:
         return data[data["UUID"] == UUID]
     

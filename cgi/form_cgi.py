@@ -2,6 +2,7 @@
 
 import cgi
 import cgitb
+import db_rw as dbrw
 
 #エラーをブラウザ上で見れるようにする
 cgitb.enable()
@@ -15,4 +16,12 @@ print("")
 
 form = cgi.FieldStorage()
 
-print("<h1>", form["user_name"].value, "</h1>")
+dbrw.writedb([form["user_name"].value, form["posted_content"].value])
+
+#redirect
+
+print('<head>')
+print('<meta charset="utf-8">')
+print('<meta http-equiv="refresh" content="2; URL=../cgitest.html">')
+print('<title>REDIRECTING....</title>')
+print('</head>')
