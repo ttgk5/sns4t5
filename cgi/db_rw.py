@@ -3,7 +3,10 @@
 import csv
 import datetime
 import pandas as pd
+import os
 from os import write
+from os import makedirs
+
 import uuid
 
 #ユーザーID読み込み
@@ -23,17 +26,39 @@ def reload_user_id():
         #print(USER_ID, len(USER_ID), type(USER_ID))
         r.close()
 
+def load_ff(username):
+
+    FF = []
+    filename = "./db/" + username + "/follow.csv"
+
+    with open(filename) as r:
+        FF_buf = r.readlines()
+
+        for x in FF_buf:
+            FF.append(x.replace("\n", ""))
+        
+        #print(USER_ID, len(USER_ID), type(USER_ID))
+        r.close()
+    return FF
+
 def nowtime():
     dt_now = datetime.datetime.now()
     now = str(dt_now.hour) + ":" + str(dt_now.minute) + ":" + str(dt_now.second)
     return now
+
+def my_makedirs(path):
+    if not os.path.isdir(path):
+        os.makedirs(path)
 
 # ユーザーネームごとにcsv形式のデータベースを作成する
 def makedb(name="test"):
 
     global USER_ID
 
-    filename = "./db/" + name + ".csv"
+    dirpass = "./db/" + name + "/"
+    my_makedirs(dirpass)
+
+    filename = "./db/" + name + "/post.csv"
     fst_row = ["UUID", "DATE", "POST"]
 
     reload_user_id()
@@ -59,7 +84,7 @@ def writedb(postdata):
     postdata.insert(0, str(uuid.uuid4())[:8])
     postdata.insert(1, date)
 
-    filename = "./db/" + db_name + ".csv"
+    filename = "./db/" + db_name + "/post.csv"
 
     reload_user_id()
     if db_name in USER_ID:
@@ -96,7 +121,7 @@ def to_html_format(name, dfdata):
 # 投稿データを読み出す
 def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ mode = 2 全部
 
-    filename = "./db/" + db_name + ".csv"
+    filename = "./db/" + db_name + "/post.csv"
 
     data = pd.read_csv(filename, encoding="Shift_JIS")
 
@@ -105,6 +130,48 @@ def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ 
         return rdata
     else:
         return data[data["UUID"] == UUID]
+
+# タイムライン作成関数
+def maketimeline(username):
+    pass
+
+# FF管理関数 apd:追加 del:削除
+def manage_ff(db_name, fname, mode="apd"):
+
+    filename = "./db/" + db_name + "/follow.csv"
+
+    if mode == "apd":
+        reload_user_id()
+        if fname in USER_ID:
+            with open(filename, 'a+', newline="", encoding="Shift_JIS") as f:
+                writer = csv.writer(f)
+                writer.writerow([fname])
+                f.close()
+        else:
+            return -1
+    
+    if mode == "del":
+        cnt = 0
+        with open(filename) as r:
+            ff = r.readlines()
+
+        for x in ff:
+            cnt += 1
+            if x == fname:
+                ff.pop(cnt)
+        
+        os.remove(filename)
+        with open(filename, 'a+', newline="", encoding="Shift_JIS") as f:
+            writer = csv.writer(f)
+            writer.writerows(ff)
+            f.close()
+
+
+        
+
+
+
+
     
 
 
@@ -125,6 +192,8 @@ def main():
 
     post = readdb("test")
     print(post, type(post))
+
+    manage_ff("test", "test2")
     #to_html_format("test", post)
 
 
