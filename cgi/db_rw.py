@@ -133,7 +133,11 @@ def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ 
 
 # タイムライン作成関数
 def maketimeline(username):
-    pass
+    follow_list = load_ff(username)
+    timeline = []
+
+    for i in follow_list:
+        timeline.append(readdb(i))
 
 # FF管理関数 apd:追加 del:削除
 def manage_ff(db_name, fname, mode="apd"):
@@ -152,37 +156,30 @@ def manage_ff(db_name, fname, mode="apd"):
     
     if mode == "del":
         cnt = 0
-        with open(filename) as r:
-            ff = r.readlines()
+        ff = load_ff(db_name)
 
         for x in ff:
             cnt += 1
             if x == fname:
-                ff.pop(cnt)
+                ff.pop(cnt - 1)
         
         os.remove(filename)
         with open(filename, 'a+', newline="", encoding="Shift_JIS") as f:
             writer = csv.writer(f)
-            writer.writerows(ff)
+            print(ff)
+            writer.writerows([ff])
             f.close()
 
 
         
-
-
-
-
-    
-
-
-
-
 
 def main():
     makedb("test")
     tweet = ["test", "EARTH IS BLUE"]
 
     makedb("test2")
+    manage_ff("test5", "test")
+    manage_ff("test5", "test2")
 
 
     writedb(["test2", "MOON IS BRIGHT"])
@@ -190,11 +187,15 @@ def main():
 
     #uuid = "a7aedd3b"
 
-    post = readdb("test")
-    print(post, type(post))
+    #post = readdb("test")
+    #print(post, type(post))
 
-    manage_ff("test", "test2")
+    makedb("test5")
+    #manage_ff("test", "test2")
+    manage_ff("test", "test5", "apd")
     #to_html_format("test", post)
+
+    maketimeline("test5")
 
 
 if __name__ == "__main__":
