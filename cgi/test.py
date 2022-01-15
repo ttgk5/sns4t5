@@ -22,7 +22,7 @@ print('<script type="text/javascript" src="../js/bootstrap.js"></script>')
 print('</head>')
 
 
-dbrw.readdb("test")
+dbrw.maketimeline(None, "showall")
 
 
 #print("<p>", str(content), "</p>")
