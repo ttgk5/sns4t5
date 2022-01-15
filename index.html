@@ -14,16 +14,16 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.html">
             <img src="T5-removebg-preview.png" alt="t5sns" width="70" height="70">
-
+            
 
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#t5nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="t5nav">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-              <li class="nav-item active">
-                <a class="nav-link" href="https://www.metro-cit.ac.jp/">Mypage <span class="link"></span></a>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Mypage <span class="link"></span></a>
               </li>
 
       
@@ -32,8 +32,25 @@
     </nav>
 <body>
   <h1>みんなの投稿</h1>
-  <h1>投稿をする</h1>
-  <iframe  class= "frame_center" src="toukou.html" width="400" height="400"></iframe>
+ 
 
+  <p class="fs-4">投稿をする</p>
+  <form>
+    <div class="form-floating .container ">
+      
+        <textarea class="form-control" placeholder="Leave a comment here" id="Textarea" style="height: 100px" style="width: 100px"></textarea>
+        <label for="floatingTextarea2">投稿内容</label>
+    </div>
+    <label>
+      <span class="btn btn-primary">
+          画像を追加
+          <input type="file" style="display:none">
+      </span>
+    </label>
+      <button type="submit" class="btn btn-primary">投稿</button>
+    
+ 
+  
+    </form>
 </body>
 </html>
