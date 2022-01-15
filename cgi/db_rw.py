@@ -6,6 +6,7 @@ import pandas as pd
 import os
 from os import write
 from os import makedirs
+from datetime import datetime as dt, time
 
 import uuid
 
@@ -42,9 +43,15 @@ def load_ff(username):
     return FF
 
 def nowtime():
-    dt_now = datetime.datetime.now()
-    now = str(dt_now.hour) + ":" + str(dt_now.minute) + ":" + str(dt_now.second)
-    return now
+
+    t_delta = datetime.timedelta(hours=9)
+    JST = datetime.timezone(t_delta, 'JST')
+    now = datetime.datetime.now(JST)
+
+
+    dt_now = now.strftime('%Y/%m/%d %H:%M:%S')
+
+    return dt_now
 
 def my_makedirs(path):
     if not os.path.isdir(path):
@@ -58,8 +65,10 @@ def makedb(name="test"):
     dirpass = "./db/" + name + "/"
     my_makedirs(dirpass)
 
-    filename = "./db/" + name + "/post.csv"
-    fst_row = ["UUID", "DATE", "POST"]
+    postfilename = "./db/" + name + "/post.csv"
+    followfilename = "./db/" + name + "/follow.csv"
+    postdata_fst_row = ["UUID", "DATE", "POST"]
+
 
     reload_user_id()
     if name in USER_ID:
@@ -70,9 +79,13 @@ def makedb(name="test"):
             writer.writerow([name])
             fb.close()
 
-        with open(filename, 'a+', newline="") as f:
+        with open(postfilename, 'a+', newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(fst_row)
+            writer.writerow(postdata_fst_row)
+            f.close()
+
+        with open(followfilename, 'a+', newline="") as f:
+            writer = csv.writer(f)
             f.close()
 
 # 投稿データをデータベースに書き込む 
@@ -102,10 +115,12 @@ def to_html_format(name, dfdata):
 
     buff_data = dfdata.values.tolist()
 
+
     #print(buff_data)
 
     print('<dl class="row">')
     for i in range(len(buff_data)):
+        name = serch_post(buff_data[i][0])[0]
         time = buff_data[i][1]
         post = buff_data[i][2]
 
@@ -117,6 +132,22 @@ def to_html_format(name, dfdata):
     
     print("</dl>")
 
+def serch_post(UUID):
+    reload_user_id()
+
+    number_of_users = len(USER_ID)
+
+    for i in USER_ID:
+        result = readdb(i, UUID)
+        #print(i)
+        #print(result)
+        if result.empty == False:
+            post_author = i
+            break
+    
+    return [post_author, result]
+
+
 
 # 投稿データを読み出す
 def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ mode = 2 全部
@@ -126,18 +157,45 @@ def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ 
     data = pd.read_csv(filename, encoding="Shift_JIS")
 
     if UUID == None:
-        rdata = to_html_format(db_name, data)
-        return rdata
+        #rdata = to_html_format(db_name, data)
+        return data
     else:
-        return data[data["UUID"] == UUID]
+        try:
+            return data[data["UUID"] == UUID]
+        except Exception:
+            return -1
 
 # タイムライン作成関数
-def maketimeline(username):
-    follow_list = load_ff(username)
-    timeline = []
+def maketimeline(username, type="individual"):
+    
+    #print("loaded", follow_list)
+    timeline = pd.DataFrame( columns=['UUID', 'DATE', 'POST'])
+    #print(timeline)
+    cnt = 0
 
-    for i in follow_list:
-        timeline.append(readdb(i))
+    if type == "individual":
+        follow_list = load_ff(username)
+        for i in follow_list:
+            timeline = pd.concat([timeline, readdb(i)])
+            #print(timeline)
+            #timeline[i,1] = dt.strptime(timeline[i,1], '%Y/%m/%d %H:%M:%S')
+            cnt += 1
+
+    if type == "showall" and username == None:
+        reload_user_id()
+        for i in USER_ID:
+            timeline = pd.concat([timeline, readdb(i)])
+            #print(timeline)
+            #timeline[i,1] = dt.strptime(timeline[i,1], '%Y/%m/%d %H:%M:%S')
+            cnt += 1
+    
+    timeline['DATE'] = pd.to_datetime(timeline['DATE'], infer_datetime_format= True)
+
+    timeline.sort_values(by = 'DATE', ascending = False, inplace = True) 
+    
+    #print(timeline)
+
+    to_html_format(username, timeline)
 
 # FF管理関数 apd:追加 del:削除
 def manage_ff(db_name, fname, mode="apd"):
@@ -147,10 +205,11 @@ def manage_ff(db_name, fname, mode="apd"):
     if mode == "apd":
         reload_user_id()
         if fname in USER_ID:
-            with open(filename, 'a+', newline="", encoding="Shift_JIS") as f:
-                writer = csv.writer(f)
-                writer.writerow([fname])
-                f.close()
+            if fname not in load_ff(db_name):
+                with open(filename, 'a+', newline="", encoding="Shift_JIS") as f:
+                    writer = csv.writer(f)
+                    writer.writerow([fname])
+                    f.close()
         else:
             return -1
     
@@ -178,6 +237,7 @@ def main():
     tweet = ["test", "EARTH IS BLUE"]
 
     makedb("test2")
+    makedb("test5")
     manage_ff("test5", "test")
     manage_ff("test5", "test2")
 
@@ -196,6 +256,9 @@ def main():
     #to_html_format("test", post)
 
     maketimeline("test5")
+    print(load_ff("test"))
+
+    print(serch_post("3bf01a41"))
 
 
 if __name__ == "__main__":
