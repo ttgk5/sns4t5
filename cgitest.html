@@ -82,16 +82,18 @@
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
         
-        <!--ログイン処理-->
-        <script language="JavaScript" type="text/javascript">
-            function nextPage() {
-                id = document.login_form.id.value
-                pwd = document.login_form.pass.value;
-                location.href = id + pwd + ".html";
-            }
-        </script>
+        <h2 class="display-3">sign up</h2>
+        <form action="/cgi/sign_up.py" method="post">
+            <div class="mb-3">
+                <label for="UserName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="UserName" name="user_name" minlength="4" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
     </div>
 </body>
 </html>
