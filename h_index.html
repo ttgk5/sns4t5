@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="utf-8">
@@ -15,37 +14,77 @@
 
   <body>
 
-   <header>    
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="file:///C:/Users/ikaro/OneDrive/%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/github/sns4t5/index.html">
-            <img src="https://cdn.discordapp.com/attachments/707584826399653959/922064988749832222/T5-removebg-preview.png" alt="t5sns" width="70" height="70">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="t5nav">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-              <li class="nav-item active">
-                <a class="nav-link" href="https://www.metro-cit.ac.jp/">Mypage <span class="link"></span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="file:///C:/Users/ikaro/OneDrive/%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/github/sns4t5/toukou.html">叫ぶ</a>
-              </li>
-      
-            </ul>
-        </div>
-    </nav>
-   </header>
+   <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <img src="gazou/T5-removebg-preview.png" alt="t5sns" width="70" height="70">
+          </a>
+          
 
-	<div class="container-fluid">
-	  <div class="row">
-	    <div class="col-sm-4 col-lg-3" style="background-color:slategray;">white</div>
-	    <div class="col-sm-4 col-lg-6" style="background-color:lightsteelblue;">Blue</div>
-	    <div class="col-sm-4 col-lg-3" style="background-color:white;">white</div>
-	  </div>
-	</div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#t5nav" aria-controls="t5nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-start" id="t5nav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">My Page</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse justify-content-start" id="t5nav">
+              <ul class="navbar-nav">
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="login.html">log in</a>
+                  </li>
+              </ul>
+            </div>       
+    </div>
+  </nav>
 
-   <footer class="footer" style="background-color:gray;"> Footer</footer>
+<div class="container"> 
+
+<!-- アイコン bio -->
+<div class="profile">
+ <div class="row">
+
+  <div class="col-6 col-md-3" style="background-color:white;">
+	<img class="d-block mx-auto mb-4" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy40UeBc_qdzION5Qr7xvLfzBq8kVyk9unaw&usqp=CAU" alt="">
+  </div>
+
+  <div class="col-12 col-md-9" style="background-color:white;">
+	<h2>Your Profile     <button type="button" class="btn-outline-secondary btn-sm">へんしゅう</button></h2>
+	<p>nanka tekitouna mojiwo ireru</p>
+			      <ul>
+	 			<li><span class="profile-stat-count">164</span> posts</li>
+				<li><span class="profile-stat-count">188</span> followers</li>
+				<li><span class="profile-stat-count">206</span> following</li>
+				</ul>
+  </div> 
+</div>
+</div>
+
+<!-- 自分の投稿 -->
+<div class="Mypost">
+<div class="row">
+    <p class="h4">Mypost</p>
+    <div class="border border-0">
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="#" 
+		scrolling="auto" width="600" height="900" seamless allowfullscreen></iframe>	<!-- srcにTLのリンク貼る -->
+      </div>
+    </div>
+  <div class="col-6 col-md-4 col-sm-10 col align-self-center" style="background-color:#e62e2e;">.col-6 .col-md-4</div>
+  <div class="col-6 col-md-4 col-sm-10 col align-self-center" style="background-color:white;">.col-6 .col-md-4</div>
+  <div class="col-6 col-md-4 col-sm-10 col align-self-center" style="background-color:blue;">.col-6 .col-md-4</div>
+</div>
+</div>
+
+
+
+  
+  </div>
+   <footer class="footer" style="background-color:black;"> Footer</footer>
   </body>
 
 </html>
