@@ -15,7 +15,7 @@ import os
 if os.name == 'nt':
     prefix = "."
 elif os.name == 'posix':
-    prefix = "/home/m17239/public_html"
+    prefix = "/home/m17239/public_html/sns4t5"
 
 #ユーザーID読み込み
 
