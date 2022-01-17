@@ -10,6 +10,13 @@ from datetime import datetime as dt, time
 
 import uuid
 
+#OS判定
+import os
+if os.name == 'nt':
+    prefix = "."
+elif os.name == 'posix':
+    prefix = "/home/m17239/public_html"
+
 #ユーザーID読み込み
 
 USER_ID = []
@@ -18,7 +25,7 @@ def reload_user_id():
     global USER_ID
 
     USER_ID = []
-    with open("./db/USER_ID.csv") as r:
+    with open(prefix + "/db/USER_ID.csv") as r:
         USER_ID_buf = r.readlines()
 
         for x in USER_ID_buf:
@@ -30,7 +37,7 @@ def reload_user_id():
 def load_ff(username):
 
     FF = []
-    filename = "./db/" + username + "/follow.csv"
+    filename = prefix + "/db/" + username + "/follow.csv"
 
     with open(filename) as r:
         FF_buf = r.readlines()
@@ -62,11 +69,11 @@ def makedb(name="test"):
 
     global USER_ID
 
-    dirpass = "./db/" + name + "/"
+    dirpass = prefix + "/db/" + name + "/"
     my_makedirs(dirpass)
 
-    postfilename = "./db/" + name + "/post.csv"
-    followfilename = "./db/" + name + "/follow.csv"
+    postfilename = prefix + "/db/" + name + "/post.csv"
+    followfilename = prefix + "/db/" + name + "/follow.csv"
     postdata_fst_row = ["UUID", "DATE", "POST"]
 
 
@@ -74,7 +81,7 @@ def makedb(name="test"):
     if name in USER_ID:
         pass
     else:
-        with open("./db/USER_ID.csv", "a+", newline="") as fb:
+        with open(prefix + "/db/USER_ID.csv", "a+", newline="") as fb:
             writer = csv.writer(fb)
             writer.writerow([name])
             fb.close()
@@ -97,7 +104,7 @@ def writedb(postdata):
     postdata.insert(0, str(uuid.uuid4())[:8])
     postdata.insert(1, date)
 
-    filename = "./db/" + db_name + "/post.csv"
+    filename = prefix + "/db/" + db_name + "/post.csv"
 
     reload_user_id()
     if db_name in USER_ID:
@@ -152,7 +159,7 @@ def serch_post(UUID):
 # 投稿データを読み出す
 def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ mode = 2 全部
 
-    filename = "./db/" + db_name + "/post.csv"
+    filename = prefix + "/db/" + db_name + "/post.csv"
 
     data = pd.read_csv(filename, encoding="Shift_JIS")
 
@@ -200,7 +207,7 @@ def maketimeline(username, type="individual"):
 # FF管理関数 apd:追加 del:削除
 def manage_ff(db_name, fname, mode="apd"):
 
-    filename = "./db/" + db_name + "/follow.csv"
+    filename = prefix + "/db/" + db_name + "/follow.csv"
 
     if mode == "apd":
         reload_user_id()
