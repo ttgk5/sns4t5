@@ -11,9 +11,6 @@ cgitb.enable()
 print("Content-Type: text/html")    
 print("")
 
-
-
-
 form = cgi.FieldStorage()
 
 dbrw.writedb([form["user_name"].value, form["posted_content"].value])
