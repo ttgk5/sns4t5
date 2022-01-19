@@ -65,7 +65,7 @@ def my_makedirs(path):
         os.makedirs(path)
 
 # ユーザーネームごとにcsv形式のデータベースを作成する
-def makedb(name="test"):
+def makedb(name="test", hashedpw = None):
 
     global USER_ID
 
@@ -74,6 +74,7 @@ def makedb(name="test"):
 
     postfilename = prefix + "/db/" + name + "/post.csv"
     followfilename = prefix + "/db/" + name + "/follow.csv"
+    pwfilename = prefix + "/db/" + "passwords.csv"
     postdata_fst_row = ["UUID", "DATE", "POST"]
 
 
@@ -81,6 +82,11 @@ def makedb(name="test"):
     if name in USER_ID:
         pass
     else:
+        if hashedpw != None:
+            with open(pwfilename, 'a+', newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([name, hashedpw])
+            
         with open(prefix + "/db/USER_ID.csv", "a+", newline="") as fb:
             writer = csv.writer(fb)
             writer.writerow([name])

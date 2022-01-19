@@ -6,6 +6,7 @@ import random
 import string
 import db_rw as dbrw
 import html_mdset as hmd
+import makehash
 
 #password 生成
 def get_random_string(length):
@@ -25,7 +26,9 @@ print("")
 form = cgi.FieldStorage()
 password = get_random_string(5)
 
-dbrw.makedb(form["user_name"].value)
+hashedpw = makehash.make_hash(password)
+
+dbrw.makedb(form["user_name"].value, hashedpw)
 
 hmd.htheader()
 hmd.htnavibar()
