@@ -25,7 +25,7 @@ def reload_user_id():
     global USER_ID
 
     USER_ID = []
-    with open(prefix + "/db/USER_ID.csv") as r:
+    with open(prefix + "/db/USER_ID.csv", encoding="shift-jis") as r:
         USER_ID_buf = r.readlines()
 
         for x in USER_ID_buf:
@@ -242,7 +242,16 @@ def manage_ff(db_name, fname, mode="apd"):
             writer.writerows([ff])
             f.close()
 
+def password_search(hashedpw):
+    filename = prefix + "/db/passwords.cgi"
 
+    df = pd.read_csv(filename)
+    result = df[df['hashedpw'] == hashedpw]
+
+    if result == hashedpw:
+        return 1
+    else:
+        return 0
         
 
 def main():
