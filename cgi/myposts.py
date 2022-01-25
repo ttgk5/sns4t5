@@ -3,11 +3,17 @@
 
 import cgi
 import cgitb
+import os
 from http import cookies
+
 import db_rw as dbrw
 
 #エラーをブラウザ上で見れるようにする
 cgitb.enable()
+
+cookie = cookies.SimpleCookie()
+cookie.load(os.environ["HTTP_COOKIE"])
+username = cookie["LOGINNAME"].value
 
 # HTML is following
 print("Content-Type: text/html; charset=Shift_JIS")
@@ -22,9 +28,8 @@ print('<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>')
 print('<script type="text/javascript" src="../js/bootstrap.js"></script>')
 print('</head>')
 
-
-dbrw.maketimeline(None, "showall")
-
+if username != "Guest":
+    dbrw.maketimeline(username, "mypost")
 
 #print("<p>", str(content), "</p>")
 

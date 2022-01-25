@@ -32,6 +32,25 @@
                             </li>
                         </ul>
                     </div>
+
+                    <script type="text/javascript">
+                        function onload() {
+                            var cookies = document.cookie;
+                            var cookieItem = cookies.split(";");
+
+                            var cookieValue = "";
+                            for (i = 0; i < cookieItem.length; i++) {
+                                var elem = cookieItem[i].split("=");
+                                if (elem[0].trim() == "value") {
+                                cookieValue = unescape(elem[1]);
+                                } else {
+                                continue;
+                                }
+                            }
+                            document.getElementById("msg").innerHTML = "値:" + cookieValue;
+                            }
+                    </script>
+
                         
                 </div>
             </div>

@@ -11,11 +11,7 @@ import makehash
 cgitb.enable()
 
 # HTML is following
-print("Content-Type: text/html")    
-print("")
-
-html_mdset.htheader()
-html_mdset.htnavibar()
+print("Content-Type: text/html")
 
 form = cgi.FieldStorage()
 
@@ -29,20 +25,25 @@ userlist = dbrw.USER_ID
 hashedpw = makehash.make_hash(password)
 
 if user_name in userlist:
-    if dbrw.password_search(hashedpw):
-        print("Set-Cookie: LOGINNAME=", user_name)
+    if dbrw.password_search(user_name, hashedpw):
+        print("Set-Cookie: LOGINNAME=", user_name, ";Path=/")
+        print("")
         print('<head>')
         print('<meta charset="utf-8">')
-        print('<meta http-equiv="refresh" content="2; URL=../cookietest.html">')
+        print('<meta http-equiv="refresh" content="2; URL=../index.html">')
         print('<title>REDIRECTING....</title>')
         print('</head>')
     else:
+        html_mdset.htheader()
+        html_mdset.htnavibar()
         html_mdset.htjumbo_s()
         print("ID若しくはパスワードが違っています")
         html_mdset.htjumbo_e()
 else:
+    html_mdset.htheader()
+    html_mdset.htnavibar()
     html_mdset.htjumbo_s()
     print("ID若しくはパスワードが違っています")
     html_mdset.htjumbo_e()
 
-print(user_name, password)
+#print(user_name, password)

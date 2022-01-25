@@ -25,7 +25,7 @@
             <div class="collapse navbar-collapse justify-content-start" id="t5nav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="h_index.html">My Page</a>
+                        <a class="nav-link active" aria-current="page" href="cgi/mypage.py">My Page</a>
                     </li>
                 </ul>
             </div>
@@ -35,14 +35,44 @@
                       <a class="nav-link active" aria-current="page" href="login.html">log in</a>
                   </li>
               </ul>
-            </div>    
+            </div>
+            <div class="collapse navbar-collapse navbar-light" id="t5nav">
+              <ul class="navbar-nav">
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="cgi/logout.py">log out</a>
+                  </li>
+              </ul>
+            </div>
             <div class="collapse navbar-collapse navbar-light" id="t5nav">
               <ul class="navbar-nav">
                   <li class="nav-item">
                       <a class="nav-link active" aria-current="page" href="touroku.html">登録</a>
                   </li>
               </ul>
-            </div>    
+            </div>
+            <script>
+                // 連想配列に格納
+                function getCookieArray(){
+                    var arr = new Array();
+                    if(document.cookie != ''){
+                        var tmp = document.cookie.split('; ');
+                        for(var i=0;i<tmp.length;i++){
+                            var data = tmp[i].split('=');
+                            arr[data[0]] = decodeURIComponent(data[1]);
+                        }
+                    }
+                    return arr;
+                }
+
+                // keyを指定して取得
+                // 「 key1=val1; key2=val2; key3=val3; ・・・ 」というCookie情報が保存されているとする
+                var arr = getCookieArray();
+                var value = arr['LOGINNAME'];
+                // key1の値：val1
+                document.write("hello ", value, "!")
+            </script>
+
+
     </div>
   </nav>
 
@@ -57,19 +87,13 @@
  
 
 
-  <form>
+  <form action="cgi/form_cgi.py">
     <div class="container">
       <form class="form-horizontal">
           <div class="form-group">
-              <label class="control-label col-xs-2">name</label>
-              <div class="col-xs-5">
-                  <input type="text" name="name" maxlength="15" class="form-control" id="name" required>
-              </div>
-          </div>
-          <div class="form-group">
             <label class="control-label col-xs-2">投稿内容</label>
             <div class="col-xs-5">
-              <input type="text" name="text" maxlength="40" class="form-control" id="textarea" required>
+              <input type="text" class="form-control" id="PostedContent" name="posted_content">
               <p class="help-block">※40文字以内で書いてください</p>
             </div>
           </div>

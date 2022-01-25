@@ -2,6 +2,8 @@
 
 import csv
 import datetime
+import re
+from matplotlib.style import use
 import pandas as pd
 import os
 from os import write
@@ -167,7 +169,12 @@ def readdb(db_name, UUID=None, mode=1):     #mode = 1 指定されたpostのみ 
 
     filename = prefix + "/db/" + db_name + "/post.csv"
 
+    if db_name == "Guest":
+        return []
+
     data = pd.read_csv(filename, encoding="Shift_JIS")
+
+
 
     if UUID == None:
         #rdata = to_html_format(db_name, data)
@@ -201,6 +208,10 @@ def maketimeline(username, type="individual"):
             #print(timeline)
             #timeline[i,1] = dt.strptime(timeline[i,1], '%Y/%m/%d %H:%M:%S')
             cnt += 1
+    
+    if type == "mypost":
+        reload_user_id()
+        timeline = readdb(username)
     
     timeline['DATE'] = pd.to_datetime(timeline['DATE'], infer_datetime_format= True)
 
@@ -242,17 +253,27 @@ def manage_ff(db_name, fname, mode="apd"):
             writer.writerows([ff])
             f.close()
 
-def password_search(hashedpw):
-    filename = prefix + "/db/passwords.cgi"
+def password_search(username, hashedpw):
+    filename = prefix + "/db/passwords.csv"
 
     df = pd.read_csv(filename)
-    result = df[df['hashedpw'] == hashedpw]
+
+    try:
+        usercol = df[df["username"] == username]
+    except Exception as e:
+        return 0
+
+    result = usercol['hashedpw'].values[0]
+
+    #print(result)
 
     if result == hashedpw:
         return 1
     else:
         return 0
-        
+
+def num_of_posts(username):
+    return len(readdb(username))
 
 def main():
     makedb("test")
@@ -281,6 +302,8 @@ def main():
     print(load_ff("test"))
 
     print(serch_post("3bf01a41"))
+
+    print(password_search("jond", "49113ca5fc050a0dee1ded572e607730"))
 
 
 if __name__ == "__main__":

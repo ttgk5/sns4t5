@@ -36,23 +36,17 @@
  
 
 
-  <form>
+  <form action="cgi/sign_up.py">
     <div class="container">
       <form class="form-horizontal">
           <div class="form-group">
               <label class="control-label col-xs-2">name</label>
               <div class="col-xs-5">
-                  <input type="text" name="name" maxlength="20" class="form-control" id="name" required>
+                  <input type="text" class="form-control" id="UserName" name="user_name" minlength="4" required>
                   <p class="help-block">※20文字以下で入力してください</p>
               </div>
           </div>
-          <div class="form-group">
-            <label class="control-label col-xs-2">password</label>
-            <div class="col-xs-5">
-              <input type="password" name="pass" minlength="4" maxlength="16" class="form-control" id="textarea" required>
-              <p class="help-block">※4文字以上16文字以下で入力してください</p>
-            </div>
-          </div>
+
       <button type="submit" class="btn btn-primary" id="touroku" >登録</button>
     </div>
   </form>
