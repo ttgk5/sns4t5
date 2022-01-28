@@ -16,7 +16,7 @@ def htnavibar():
     content = '''
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="../index.html">
         <img src="/gazou/T5-removebg-preview.png" alt="t5sns" width="70" height="70">
         </a>
 
